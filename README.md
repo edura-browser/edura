@@ -32,13 +32,7 @@ A secure, kiosk-ready browser application built on the Chromium Embedded Framewo
 - **Purpose**: Production kiosk deployment
 - **Features**: Maximum security, minimal interface
 - **Usage**: `cefsimple.exe --url=https://your-site.com`
-
-### cefclient - Development Browser
-- **Location**: `build/tests/cefclient/Debug/cefclient.exe`
-- **Purpose**: Development and testing
-- **Features**: Full controls, address bar, developer options
-- **Usage**: `cefclient.exe --url=https://your-site.com`
-
+- 
 ## 🚀 Quick Start
 
 ### Prerequisites
