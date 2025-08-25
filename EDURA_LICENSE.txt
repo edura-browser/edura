@@ -1,0 +1,41 @@
+EDURA BROWSER LICENSE AGREEMENT
+
+Copyright (C) 2025 Mod-Sauce. All rights reserved.
+
+END USER LICENSE AGREEMENT
+
+This End User License Agreement ("Agreement") is a legal agreement between you (either an individual or a single entity) and Mod-Sauce for the Edura Browser software product, which includes computer software and may include associated media, printed materials, and "online" or electronic documentation ("Software").
+
+BY INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT. IF YOU DO NOT AGREE TO THE TERMS OF THIS AGREEMENT, DO NOT INSTALL OR USE THE SOFTWARE.
+
+1. GRANT OF LICENSE
+Mod-Sauce grants you a non-exclusive, non-transferable license to use the Software for kiosk and controlled browsing applications.
+
+2. PERMITTED USES
+- Install and use the Software on any number of computers
+- Deploy the Software in kiosk mode environments
+- Configure the Software with custom URLs for specific applications
+- Use the Software for commercial and non-commercial purposes
+
+3. RESTRICTIONS
+- You may not reverse engineer, decompile, or disassemble the Software
+- You may not modify, adapt, or create derivative works of the Software
+- You may not distribute the Software as part of another software package
+- You may not remove or alter any copyright notices or labels
+
+4. THIRD PARTY COMPONENTS
+This Software includes components from the Chromium Embedded Framework (CEF) and other open source projects, which are subject to their respective license terms. The CEF license is included separately.
+
+5. DISCLAIMER OF WARRANTIES
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+6. LIMITATION OF LIABILITY
+IN NO EVENT SHALL MOD-SAUCE BE LIABLE FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE THE SOFTWARE.
+
+7. TERMINATION
+This license is effective until terminated. You may terminate it at any time by destroying the Software and all copies thereof. This license will also terminate if you fail to comply with any term or condition of this Agreement.
+
+8. GOVERNING LAW
+This Agreement shall be governed by the laws of your jurisdiction.
+
+For support or questions, please contact your system administrator or Mod-Sauce.

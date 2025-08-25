@@ -1,0 +1,85 @@
+name: Build Edura Browser
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ created ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3
+      
+    - name: Setup CMake
+      uses: jwlawson/actions-setup-cmake@v1.14
+      with:
+        cmake-version: '3.19'
+        
+    - name: Download CEF Binary Distribution
+      run: |
+        # Note: In a real scenario, you would download the CEF binary distribution
+        # For now, this assumes the CEF files are already in the repository
+        echo "CEF binary distribution should be included in the repository or downloaded here"
+        
+    - name: Create Build Directory
+      run: |
+        mkdir build
+        cd build
+        
+    - name: Configure CMake
+      run: |
+        cd build
+        cmake .. -G "Visual Studio 17 2022" -A x64
+        
+    - name: Build Release
+      run: |
+        cd build
+        cmake --build . --config Release --target cefsimple
+        
+    - name: Build Debug (for development)
+      run: |
+        cd build
+        cmake --build . --config Debug --target cefclient
+        
+    - name: Package Artifacts
+      run: |
+        mkdir artifacts
+        # Copy Release build
+        xcopy "build\tests\cefsimple\Release\*" "artifacts\Release\" /E /I
+        # Copy Debug build (cefclient)
+        xcopy "build\tests\cefclient\Debug\*" "artifacts\Debug\" /E /I
+        # Copy installer script
+        copy "EduraBrowserSetup.iss" "artifacts\"
+        copy "EDURA_LICENSE.txt" "artifacts\"
+        
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: edura-browser-${{ github.sha }}
+        path: artifacts/
+        
+    - name: Create Release Assets (on release)
+      if: github.event_name == 'release'
+      run: |
+        # Create a zip file for release
+        Compress-Archive -Path "artifacts\Release\*" -DestinationPath "EduraBrowser-${{ github.event.release.tag_name }}.zip"
+        
+    - name: Upload Release Assets
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./EduraBrowser-${{ github.event.release.tag_name }}.zip
+        asset_name: EduraBrowser-${{ github.event.release.tag_name }}.zip
+        asset_content_type: application/zip
