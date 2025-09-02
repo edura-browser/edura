@@ -12,6 +12,8 @@ A secure, kiosk-ready browser application built on the Chromium Embedded Framewo
 - **No context menu customization** - Minimal right-click options
 - **No popup windows** - All popups are blocked
 - **No developer tools** - No access to debugging or inspection tools
+- **No zoom functionality** - Zoom via keyboard, mouse wheel, and touch gestures is completely disabled
+- **Fullscreen support** - Optional fullscreen mode via `--fullscreen` flag
 
 ### 🖥️ Kiosk Mode Ready
 - **Windows Kiosk Mode compatible** - Works seamlessly with Windows Assigned Access
@@ -101,6 +103,12 @@ cefsimple.exe --url=https://your-company-portal.com
 
 # Open local HTML file
 cefsimple.exe --url=file:///C:/kiosk/content/index.html
+
+# Launch in fullscreen mode
+cefsimple.exe --fullscreen --url=https://your-site.com
+
+# Combine multiple options
+cefsimple.exe --fullscreen --url=https://your-company-portal.com
 
 # Default (opens Google)
 cefsimple.exe

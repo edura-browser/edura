@@ -120,6 +120,11 @@ void SimpleApp::OnContextInitialized() {
   // Specify CEF browser settings here.
   CefBrowserSettings browser_settings;
 
+  // Disable zoom functionality and other security settings
+  CefString(&browser_settings.default_encoding).FromASCII("utf-8");
+  browser_settings.javascript_close_windows = STATE_DISABLED;
+  browser_settings.javascript_access_clipboard = STATE_DISABLED;
+
   std::string url;
 
   // Check if a "--url=" value was provided via the command-line. If so, use
@@ -148,6 +153,11 @@ void SimpleApp::OnContextInitialized() {
       initial_show_state = CEF_SHOW_STATE_MINIMIZED;
     } else if (show_state_value == "maximized") {
       initial_show_state = CEF_SHOW_STATE_MAXIMIZED;
+    }
+
+    // Check for fullscreen flag
+    if (command_line->HasSwitch("fullscreen")) {
+      initial_show_state = CEF_SHOW_STATE_FULLSCREEN;
     }
 #if defined(OS_MAC)
     // Hidden show state is only supported on MacOS.

@@ -180,8 +180,8 @@ void SimpleHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
                               int httpStatusCode) {
   CEF_REQUIRE_UI_THREAD();
 
-  // Inject CSS to disable text selection and pointer events on links/buttons
-  std::string css_code =
+  // Inject CSS and JavaScript to disable text selection, pointer events, and zoom
+  std::string security_code =
     "var style = document.createElement('style');"
     "style.type = 'text/css';"
     "style.innerHTML = '"
@@ -203,9 +203,29 @@ void SimpleHandler::OnLoadEnd(CefRefPtr<CefBrowser> browser,
     "  user-select: text !important; "
     "} "
     "';"
-    "document.head.appendChild(style);";
+    "document.head.appendChild(style);"
 
-  frame->ExecuteJavaScript(css_code, frame->GetURL(), 0);
+    // Disable zoom via mouse wheel and keyboard
+    "document.addEventListener('wheel', function(e) {"
+    "  if (e.ctrlKey) { e.preventDefault(); }"
+    "}, { passive: false });"
+
+    "document.addEventListener('keydown', function(e) {"
+    "  if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0')) {"
+    "    e.preventDefault();"
+    "  }"
+    "});"
+
+    // Disable touch zoom gestures
+    "document.addEventListener('touchstart', function(e) {"
+    "  if (e.touches.length > 1) { e.preventDefault(); }"
+    "}, { passive: false });"
+
+    "document.addEventListener('touchmove', function(e) {"
+    "  if (e.touches.length > 1) { e.preventDefault(); }"
+    "}, { passive: false });";
+
+  frame->ExecuteJavaScript(security_code, frame->GetURL(), 0);
 }
 
 bool SimpleHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
@@ -264,6 +284,52 @@ void SimpleHandler::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser,
 
   // Clear all context menu items to remove customization options
   model->Clear();
+}
+
+bool SimpleHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
+                                  const CefKeyEvent& event,
+                                  CefEventHandle os_event,
+                                  bool* is_keyboard_shortcut) {
+  CEF_REQUIRE_UI_THREAD();
+
+  // Block zoom keyboard shortcuts
+  if (event.type == KEYEVENT_KEYDOWN || event.type == KEYEVENT_RAWKEYDOWN) {
+    // Check for Ctrl key combinations
+    if (event.modifiers & EVENTFLAG_CONTROL_DOWN) {
+      // Block Ctrl+Plus (zoom in)
+      if (event.windows_key_code == VK_OEM_PLUS || event.windows_key_code == VK_ADD) {
+        return true; // Block the event
+      }
+      // Block Ctrl+Minus (zoom out)
+      if (event.windows_key_code == VK_OEM_MINUS || event.windows_key_code == VK_SUBTRACT) {
+        return true; // Block the event
+      }
+      // Block Ctrl+0 (reset zoom)
+      if (event.windows_key_code == '0' || event.windows_key_code == VK_NUMPAD0) {
+        return true; // Block the event
+      }
+      // Block F11 (fullscreen toggle) - only if not explicitly enabled
+      if (event.windows_key_code == VK_F11) {
+        // Check if fullscreen flag is enabled
+        CefRefPtr<CefCommandLine> command_line = CefCommandLine::GetGlobalCommandLine();
+        if (!command_line->HasSwitch("fullscreen")) {
+          return true; // Block F11 if fullscreen not enabled
+        }
+      }
+    }
+  }
+
+  return false; // Allow other key events
+}
+
+bool SimpleHandler::OnKeyEvent(CefRefPtr<CefBrowser> browser,
+                               const CefKeyEvent& event,
+                               CefEventHandle os_event) {
+  CEF_REQUIRE_UI_THREAD();
+
+  // Additional key event handling if needed
+  // This is called after the renderer has processed the event
+  return false; // Don't handle any key events here
 }
 
 #if !defined(OS_MAC)

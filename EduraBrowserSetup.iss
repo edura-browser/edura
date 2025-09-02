@@ -1,7 +1,7 @@
 [Setup]
 ; Basic Information
 AppName=Edura Browser
-AppVersion=1.0
+AppVersion=1.1
 AppPublisher=Mod-Sauce
 DefaultDirName={autopf}\Edura Browser
 DefaultGroupName=Edura Browser
@@ -16,7 +16,7 @@ WizardStyle=modern
 PrivilegesRequired=admin
 
 ; Version Information
-VersionInfoVersion=1.0.0.0
+VersionInfoVersion=1.1.0
 VersionInfoCompany=Mod-Sauce
 VersionInfoDescription=Edura Browser Installer
 VersionInfoCopyright=Copyright (C) 2025 Mod-Sauce
