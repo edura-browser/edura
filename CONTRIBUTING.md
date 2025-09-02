@@ -171,7 +171,6 @@ Since Edura Browser is designed for secure kiosk environments:
 
 - **GitHub Issues** - For bugs and feature requests
 - **GitHub Discussions** - For questions and general discussion
-- **Email** - support@mod-sauce.com for private inquiries
 
 ## 📄 License
 
